@@ -4,7 +4,7 @@ This project involves designing and implementing a relational database schema fo
 
 ## Entities and Attributes
 
-![Entity Relationship Diagram]('./Entity_Relationship_Diagram.png')
+![Entity Relationship Diagram](/Entity_Relationship_Diagram.png)
 
 ---
 
