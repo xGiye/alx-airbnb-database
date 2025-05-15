@@ -20,7 +20,6 @@ INNER JOIN
 
 --A query using LEFT JOIN to retrieve all properties and their reviews, including properties that have no reviews
 SELECT 
-    p.host_id,
     p.name AS property_name,
     p.description,
     p.location,
@@ -33,10 +32,13 @@ SELECT
 FROM
     Property p
 LEFT JOIN 
-    Review r ON p.property_id = r.property_id;
+    Review r ON p.property_id = r.property_id
+ORDER BY
+    p.name ASC, r.created_at DESC;
 
 
--- A query using a FULL OUTER JOIN to retrieve all users and bookigs, including uer who have never made a booking and bookings that are not linked to any user
+-- A query using a FULL OUTER JOIN to retrieve all users and bookings, 
+-- including uer who have never made a booking and bookings that are not linked to any user
 
 SELECT
     u.user_id,
