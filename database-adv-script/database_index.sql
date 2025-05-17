@@ -12,3 +12,22 @@ CREATE INDEX idx_property_host_id ON Property(host_id);
 
 -- Review table
 CREATE INDEX idx_review_property_id ON Review(property_id);
+
+
+-- Before indexing
+EXPLAIN ANALYZE
+SELECT 
+    u.first_name, u.last_name, b.booking_id, p.name
+FROM Booking b
+JOIN User u ON b.user_id = u.user_id
+JOIN Property p ON b.property_id = p.property_id
+WHERE b.status = 'confirmed';
+
+-- After adding indexes, rerun the same query
+EXPLAIN ANALYZE
+SELECT 
+    u.first_name, u.last_name, b.booking_id, p.name
+FROM Booking b
+JOIN User u ON b.user_id = u.user_id
+JOIN Property p ON b.property_id = p.property_id
+WHERE b.status = 'confirmed';
