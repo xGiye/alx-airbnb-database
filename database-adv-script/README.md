@@ -1,74 +1,114 @@
-# SQL JOIN Queries - Airbnb Database
+# ALX Airbnb Database - Advanced SQL Scripts
 
-This directory contains SQL queries demonstrating the use of `JOIN` operations on the **Airbnb-like relational database schema**. These queries help retrieve meaningful insights by combining data across multiple related tables.
+This repository contains advanced SQL scripts and performance enhancements for the Airbnb clone project. It demonstrates expert-level database management skills including complex joins, subqueries, aggregations, indexing, optimization, and partitioning for large datasets.
 
-## Files
+---
 
-- `inner_join.sql`: Retrieve bookings along with the users who made them.
-- `left_join.sql`: Retrieve all properties and their reviews, including properties that have no reviews.
-- `full_outer_join.sql`: Retrieve all users and bookings, including users without bookings and bookings without linked users.
+## Repository Structure
 
-## JOIN Query Descriptions
+### database-adv-script/
 
-### INNER JOIN: Bookings and Users
+&#8211;&#8211;&#8211; **joins_queries.sql** - Complex JOIN queries (INNER, LEFT, FULL OUTER)  
+&#8211;&#8211;&#8211; **subqueries.sql** - Correlated and non-correlated subqueries  
+&#8211;&#8211;&#8211; **aggregations_and_window_functions.sql** - Aggregates and window functions (RANK, ROW_NUMBER)  
+&#8211;&#8211;&#8211; **database_index.sql** - Index creation for performance improvement  
+&#8211;&#8211;&#8211; **index_performance.md** - Report on indexing performance impact  
+&#8211;&#8211;&#8211; **perfomance.sql** - Optimized complex queries with EXPLAIN ANALYZE  
+&#8211;&#8211;&#8211; **optimization_report.md** - Summary of query inefficiencies and optimizations  
+&#8211;&#8211;&#8211; **partitioning.sql** - Table partitioning on Booking.start_date  
+&#8211;&#8211;&#8211; **partition_performance.md** - Performance test report on partitioned table  
+&#8211;&#8211;&#8211; **performance_monitoring.md** - Monitoring and refinement strategies with EXPLAIN  
+&#8211;&#8211;&#8211; **README.md** - This documentation file
 
-```sql
-SELECT
-    b.booking_id,
-    b.property_id,
-    b.start_date,
-    b.end_date,
-    b.total_price,
-    b.status,
-    b.created_at AS booking_created_at,
-    u.user_id,
-    u.first_name,
-    u.last_name,
-    u.email
-FROM
-    Booking b
-INNER JOIN
-    Users u ON b.user_id = u.user_id;
-```
+---
 
-### LEFT JOIN: Property and Reviews
+## Queries Overview
 
-```sql
-SELECT
-    p.host_id,
-    p.name AS property_name,
-    p.description,
-    p.location,
-    p.pricepernight,
-    p.created_at AS property_created_at,
-    r.user_id,
-    r.rating,
-    r.comment,
-    r.created_at AS review_created_at
-FROM
-    Property p
-LEFT JOIN
-    Review r ON p.property_id = r.property_id;
+### 0. **Complex Joins**
 
-```
+- `INNER JOIN`: Retrieves bookings and their corresponding users.
+- `LEFT JOIN`: Gets all properties, including those with no reviews.
+- `FULL OUTER JOIN`: Combines all users and bookings, regardless of matching.
 
-### FULL OUTER JOIN: Users and Bookings
+File: `joins_queries.sql`
 
-```sql
-SELECT
-    u.user_id,
-    u.first_name,
-    u.last_name,
-    u.email,
-    b.booking_id,
-    b.property_id,
-    b.start_date,
-    b.end_date,
-    b.total_price,
-    b.status
-FROM
-    Users u
-FULL OUTER JOIN
-    Booking b ON u.user_id = b.user_id
+---
 
-```
+### 1. **Subqueries**
+
+- **Non-Correlated**: Find properties with average rating > 4.0.
+- **Correlated**: Find users with more than 3 bookings.
+
+File: `subqueries.sql`
+
+---
+
+### 2. **Aggregations & Window Functions**
+
+- Count bookings per user.
+- Rank properties based on total bookings using `RANK` and `ROW_NUMBER`.
+
+File: `aggregations_and_window_functions.sql`
+
+---
+
+### 3. **Indexes for Optimization**
+
+- Indexes added to `Booking`, `User`, and `Property` tables based on usage in `WHERE`, `JOIN`, and `ORDER BY` clauses.
+- Performance analyzed with `EXPLAIN`.
+
+Files: `database_index.sql`, `index_performance.md`
+
+---
+
+### 4. **Optimized Complex Queries**
+
+- Retrieves bookings along with user, property, and payment details.
+- Original and optimized versions compared using `EXPLAIN ANALYZE`.
+
+Files: `perfomance.sql`, `optimization_report.md`
+
+---
+
+### 5. **Table Partitioning**
+
+- Partitioned the `Booking` table by `start_date` to speed up date-based queries.
+- Evaluated improvement through sample queries.
+
+Files: `partitioning.sql`, `partition_performance.md`
+
+---
+
+### 6. **Monitoring and Refinement**
+
+- Used `EXPLAIN ANALYZE` to inspect query plans.
+- Identified bottlenecks and applied schema/index changes.
+- Documented findings and improvements.
+
+File: `performance_monitoring.md`
+
+---
+
+## How to Use
+
+1. **Setup PostgreSQL or MySQL** as your database engine.
+2. Run the SQL files in the order of tasks.
+3. Use `EXPLAIN` or `ANALYZE` to inspect query performance.
+4. Compare execution time and query plans before and after optimization.
+5. Refer to the `.md` report files for performance summaries.
+
+---
+
+## Notes
+
+- Make sure to **load sample data** before running these queries.
+- Indexes can greatly **improve performance** but may slow down `INSERT`/`UPDATE` operations—use them wisely.
+- Partitioning is beneficial for **large historical data** tables but requires careful planning of future inserts.
+
+---
+
+## Contributors
+
+Developed as part of the **ALX Software Engineering Program**.
+
+---
